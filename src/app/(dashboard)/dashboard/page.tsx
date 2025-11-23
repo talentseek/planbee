@@ -1,4 +1,3 @@
-import { Play, CheckCircle, Clock } from 'lucide-react';
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import DashboardViewToggle from '@/components/DashboardViewToggle';
@@ -39,7 +38,7 @@ export default async function Home() {
       {/* Today's Plan Section */}
       <section className="bg-white rounded-[2rem] shadow-sm border border-bee-pale p-8">
         <h2 className="text-2xl font-black text-bee-black mb-6 flex items-center gap-2">
-          <span className="text-3xl">📅</span> Today's Plan
+          <span className="text-3xl">📅</span> Today&apos;s Plan
         </h2>
         <div className="space-y-4">
           {todoTasks.length === 0 ? (
@@ -84,7 +83,7 @@ export default async function Home() {
         </div>
         <div>
           <h1 className="text-4xl font-black text-bee-black tracking-tight">Welcome to The Hive</h1>
-          <p className="text-bee-brown/70 font-bold text-lg">Here is what's buzzing today.</p>
+          <p className="text-bee-brown/70 font-bold text-lg">Here is what&apos;s buzzing today.</p>
         </div>
       </header>
 

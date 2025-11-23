@@ -18,7 +18,7 @@ export default function Hexagon({
     children,
     className = '',
     size = 'md',
-    color = 'bg-card',
+    // color = 'bg-card',
     onClick,
     state = 'empty',
     progress = 0,

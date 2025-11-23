@@ -33,8 +33,12 @@ export default function SignInPage() {
                 });
                 router.push('/dashboard');
             }
-        } catch (err: any) {
-            setError(err.message || 'Authentication failed');
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError('Authentication failed');
+            }
         } finally {
             setLoading(false);
         }
@@ -51,6 +55,7 @@ export default function SignInPage() {
             <div className="bg-white/90 backdrop-blur-xl rounded-[2rem] shadow-2xl w-full max-w-md p-8 relative z-10 border border-white/50">
                 <div className="text-center mb-8">
                     <div className="flex justify-center mb-4">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src="/planbeelogo.png" alt="PlanBee Logo" className="w-20 h-20 object-contain drop-shadow-md hover:scale-110 transition-transform duration-300" />
                     </div>
                     <h1 className="text-3xl font-black text-bee-black mb-2 tracking-tight">PlanBee</h1>

@@ -21,6 +21,7 @@ export async function POST(request: Request) {
 
         return NextResponse.json(task);
     } catch (error) {
+        console.error(error);
         return NextResponse.json({ error: 'Failed to create task' }, { status: 500 });
     }
 }
@@ -46,6 +47,7 @@ export async function PUT(request: Request) {
 
         return NextResponse.json(task);
     } catch (error) {
+        console.error(error);
         return NextResponse.json({ error: 'Failed to update task' }, { status: 500 });
     }
 }
@@ -65,6 +67,7 @@ export async function DELETE(request: Request) {
 
         return NextResponse.json({ success: true });
     } catch (error) {
+        console.error(error);
         return NextResponse.json({ error: 'Failed to delete task' }, { status: 500 });
     }
 }

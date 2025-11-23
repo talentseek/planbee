@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Hexagon from './Hexagon';
 import { CheckCircle, Circle, Clock, Sparkles } from 'lucide-react';
 import {
@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/tooltip"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { cn } from "@/lib/utils"
+// import { cn } from "@/lib/utils"
 
 // Define the shape of the task data we need
 interface TaskWithProject {
@@ -32,7 +32,7 @@ interface HiveViewProps {
 }
 
 export default function HiveView({ tasks }: HiveViewProps) {
-    const [celebratingId, setCelebratingId] = useState<string | null>(null);
+    // const [celebratingId, setCelebratingId] = useState<string | null>(null);
 
     if (tasks.length === 0) {
         return (

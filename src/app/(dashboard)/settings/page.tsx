@@ -21,7 +21,6 @@ export default function SettingsPage() {
 
     // Intensity mode state
     const [intensity, setIntensity] = useState<'GLIDER' | 'WORKER_BEE' | 'HERO_MODE'>('WORKER_BEE');
-    const [isLoadingIntensity, setIsLoadingIntensity] = useState(true);
 
     // Load user's current intensity on mount
     React.useEffect(() => {
@@ -35,8 +34,6 @@ export default function SettingsPage() {
                     }
                 } catch (error) {
                     console.error('Failed to load user settings:', error);
-                } finally {
-                    setIsLoadingIntensity(false);
                 }
             }
         };
@@ -104,6 +101,7 @@ export default function SettingsPage() {
                 }
             });
         } catch (err) {
+            console.error(err);
             setPasswordError("An error occurred while changing password");
         } finally {
             setIsChangingPassword(false);

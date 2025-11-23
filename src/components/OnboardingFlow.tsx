@@ -32,7 +32,7 @@ export default function OnboardingFlow({ onComplete }: { onComplete: () => void 
                             </div>
                             <h2 className="text-4xl font-bold text-bee-brown mb-4">Welcome to the Hive.</h2>
                             <p className="text-xl text-gray-600 mb-10 max-w-md mx-auto">
-                                Let's turn your busy day into a focused one. Defend your time and collect nectar.
+                                Let&apos;s turn your busy day into a focused one. Defend your time and collect nectar.
                             </p>
                             <button
                                 onClick={nextStep}
@@ -106,11 +106,12 @@ export default function OnboardingFlow({ onComplete }: { onComplete: () => void 
                             </div>
                             <h2 className="text-3xl font-bold text-bee-brown mb-4">Scout the Perimeter</h2>
                             <p className="text-gray-600 mb-8 max-w-md mx-auto">
-                                Connect your calendar so we can find safe gaps for your Cells. We'll mark your focus time as <strong>"Busy: Defending the Hive"</strong>.
+                                Connect your calendar so we can find safe gaps for your Cells. We&apos;ll mark your focus time as <strong>&quot;Busy: Defending the Hive&quot;</strong>.
                             </p>
 
                             <div className="space-y-3 mb-10 max-w-sm mx-auto">
                                 <button className="w-full p-4 rounded-xl border border-gray-200 flex items-center gap-3 hover:bg-gray-50 transition-colors text-left group">
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
                                     <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Google_Calendar_icon_%282020%29.svg" alt="Google" className="w-6 h-6" />
                                     <span className="font-medium text-gray-700 group-hover:text-bee-brown">Connect Google Calendar</span>
                                 </button>

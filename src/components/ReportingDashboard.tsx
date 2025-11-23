@@ -1,6 +1,6 @@
 'use client';
 
-import { BarChart3, CheckCircle2, Clock, TrendingUp } from 'lucide-react';
+import { CheckCircle2, Clock, TrendingUp } from 'lucide-react';
 
 interface ReportingDashboardProps {
     totalPomodoros: number;

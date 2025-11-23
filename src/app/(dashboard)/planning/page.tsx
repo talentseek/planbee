@@ -49,7 +49,7 @@ export default function PlanningPage() {
             <div className="bg-white rounded-[2rem] shadow-sm border border-bee-pale overflow-hidden">
                 <div className="p-6 border-b border-bee-pale bg-bee-pale/30">
                     <h2 className="font-black text-xl text-bee-black flex items-center gap-2">
-                        <span>📅</span> Today's Schedule
+                        <span>📅</span> Today&apos;s Schedule
                     </h2>
                 </div>
 
@@ -61,7 +61,7 @@ export default function PlanningPage() {
                             </div>
                             <h3 className="text-xl font-bold text-bee-black mb-2">No plan generated yet</h3>
                             <p className="text-bee-brown/60 max-w-md mx-auto">
-                                Click the "Generate Plan" button above to organize your day and fill your cells.
+                                Click the &quot;Generate Plan&quot; button above to organize your day and fill your cells.
                             </p>
                         </div>
                     ) : (

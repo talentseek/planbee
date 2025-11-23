@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, Suspense } from 'react';
+import { useState, useEffect, useRef, Suspense, useCallback } from 'react';
 import { Play, Pause, RotateCcw, Coffee, Hexagon as HexagonIcon } from 'lucide-react';
 import { authClient } from '@/lib/auth-client';
 import { useSearchParams } from 'next/navigation';
@@ -41,52 +41,7 @@ function CellTimerContent() {
         }
     }, [taskId]);
 
-    useEffect(() => {
-        let interval: NodeJS.Timeout;
-
-        if (isActive && timeLeft > 0) {
-            interval = setInterval(() => {
-                setTimeLeft((prev) => {
-                    const newTime = prev - 1;
-                    const total = totalTimeRef.current;
-                    const elapsed = total - newTime;
-                    setFillPercent((elapsed / total) * 100);
-                    return newTime;
-                });
-            }, 1000);
-        } else if (timeLeft === 0) {
-            setIsActive(false);
-            handleComplete();
-        }
-
-        return () => clearInterval(interval);
-    }, [isActive, timeLeft]);
-
-    const toggleTimer = () => {
-        if (!isActive) {
-            startTimeRef.current = new Date();
-        }
-        setIsActive(!isActive);
-    };
-
-    const resetTimer = () => {
-        setIsActive(false);
-        const duration = mode === 'cell' ? 25 * 60 : (mode === 'breather' ? 5 * 60 : 15 * 60);
-        setTimeLeft(duration);
-        totalTimeRef.current = duration;
-        setFillPercent(0);
-    };
-
-    const switchMode = (newMode: 'cell' | 'breather' | 'refuel') => {
-        setMode(newMode);
-        setIsActive(false);
-        const duration = newMode === 'cell' ? 25 * 60 : (newMode === 'breather' ? 5 * 60 : 15 * 60);
-        setTimeLeft(duration);
-        totalTimeRef.current = duration;
-        setFillPercent(0);
-    };
-
-    const handleComplete = async () => {
+    const handleComplete = useCallback(async () => {
         if (mode === 'cell') {
             // Play success sound (placeholder)
             const audio = new Audio('/sounds/pop.mp3'); // Needs to be added
@@ -114,6 +69,60 @@ function CellTimerContent() {
         } else {
             alert('Wings rested. Ready to fly again?');
         }
+    }, [mode, taskId, session]);
+
+    // Handle timer completion separately
+    useEffect(() => {
+        if (timeLeft === 0 && isActive) {
+            // Use setTimeout to avoid synchronous state update warning during render cycle
+            const timer = setTimeout(() => {
+                setIsActive(false);
+                handleComplete();
+            }, 0);
+            return () => clearTimeout(timer);
+        }
+    }, [timeLeft, isActive, handleComplete]);
+
+    useEffect(() => {
+        let interval: NodeJS.Timeout;
+
+        if (isActive && timeLeft > 0) {
+            interval = setInterval(() => {
+                setTimeLeft((prev) => {
+                    const newTime = prev - 1;
+                    const total = totalTimeRef.current;
+                    const elapsed = total - newTime;
+                    setFillPercent((elapsed / total) * 100);
+                    return newTime;
+                });
+            }, 1000);
+        }
+
+        return () => clearInterval(interval);
+    }, [isActive, timeLeft]);
+
+    const toggleTimer = () => {
+        if (!isActive) {
+            startTimeRef.current = new Date();
+        }
+        setIsActive(!isActive);
+    };
+
+    const resetTimer = () => {
+        setIsActive(false);
+        const duration = mode === 'cell' ? 25 * 60 : (mode === 'breather' ? 5 * 60 : 15 * 60);
+        setTimeLeft(duration);
+        totalTimeRef.current = duration;
+        setFillPercent(0);
+    };
+
+    const switchMode = (newMode: 'cell' | 'breather' | 'refuel') => {
+        setMode(newMode);
+        setIsActive(false);
+        const duration = newMode === 'cell' ? 25 * 60 : (newMode === 'breather' ? 5 * 60 : 15 * 60);
+        setTimeLeft(duration);
+        totalTimeRef.current = duration;
+        setFillPercent(0);
     };
 
     const formatTime = (seconds: number) => {
@@ -213,7 +222,7 @@ function CellTimerContent() {
             {/* Worker Bee Tips */}
             <div className="mt-6 text-center animate-in fade-in slide-in-from-bottom-2 duration-700 delay-500">
                 <p className="text-xs text-bee-brown/60 italic">
-                    <span className="font-bold text-bee-gold">Worker Bee Tip:</span> "Don't overload the comb. 8 Cells is a solid day's work."
+                    <span className="font-bold text-bee-gold">Worker Bee Tip:</span> &quot;Don&apos;t overload the comb. 8 Cells is a solid day&apos;s work.&quot;
                 </p>
             </div>
         </div>

@@ -1,8 +1,9 @@
 "use client"
 
 import * as React from "react"
-import { Home, Hexagon, Calendar, Clock, Settings, LogOut, ChevronUp } from "lucide-react"
+import { Home, Hexagon, Calendar, Clock, Settings, LogOut } from "lucide-react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { authClient } from "@/lib/auth-client"
 
 import {
@@ -16,22 +17,12 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
-    SidebarMenuSkeleton,
     SidebarRail,
-    useSidebar,
 } from "@/components/ui/sidebar"
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const router = useRouter()
-    const { state } = useSidebar()
 
     const handleSignOut = async () => {
         await authClient.signOut({
@@ -63,42 +54,42 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         <SidebarMenu>
                             <SidebarMenuItem>
                                 <SidebarMenuButton asChild tooltip="The Hive">
-                                    <a href="/" className="text-sidebar-foreground hover:text-primary hover:bg-sidebar-accent">
+                                    <Link href="/" className="text-sidebar-foreground hover:text-primary hover:bg-sidebar-accent">
                                         <Home />
                                         <span>The Hive</span>
-                                    </a>
+                                    </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
                                 <SidebarMenuButton asChild tooltip="Combs (Projects)">
-                                    <a href="/projects" className="text-sidebar-foreground hover:text-primary hover:bg-sidebar-accent">
+                                    <Link href="/projects" className="text-sidebar-foreground hover:text-primary hover:bg-sidebar-accent">
                                         <Hexagon />
                                         <span>Combs (Projects)</span>
-                                    </a>
+                                    </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
                                 <SidebarMenuButton asChild tooltip="Flight Plan">
-                                    <a href="/planning" className="text-sidebar-foreground hover:text-primary hover:bg-sidebar-accent">
+                                    <Link href="/planning" className="text-sidebar-foreground hover:text-primary hover:bg-sidebar-accent">
                                         <Calendar />
                                         <span>Flight Plan</span>
-                                    </a>
+                                    </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
                                 <SidebarMenuButton asChild tooltip="Cell Timer">
-                                    <a href="/timer" className="text-sidebar-foreground hover:text-primary hover:bg-sidebar-accent">
+                                    <Link href="/timer" className="text-sidebar-foreground hover:text-primary hover:bg-sidebar-accent">
                                         <Clock />
                                         <span>Cell Timer</span>
-                                    </a>
+                                    </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
                                 <SidebarMenuButton asChild tooltip="Beekeeper">
-                                    <a href="/settings" className="text-sidebar-foreground hover:text-primary hover:bg-sidebar-accent">
+                                    <Link href="/settings" className="text-sidebar-foreground hover:text-primary hover:bg-sidebar-accent">
                                         <Settings />
                                         <span>Beekeeper</span>
-                                    </a>
+                                    </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                         </SidebarMenu>

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { addMinutes, format, parseISO, setHours, setMinutes } from 'date-fns';
+import { addMinutes, format, setHours, setMinutes } from 'date-fns';
 
 // Mock Calendar Events
 const MOCK_EVENTS = [
@@ -9,9 +9,8 @@ const MOCK_EVENTS = [
     { title: 'Team Meeting', start: '15:00', end: '16:00' },
 ];
 
-export async function POST(request: Request) {
+export async function POST() {
     try {
-        // 1. Fetch TODO tasks
         // 1. Fetch TODO tasks
         const tasks = await prisma.task.findMany({
             where: { status: 'TODO' },
@@ -72,6 +71,7 @@ export async function POST(request: Request) {
 
         return NextResponse.json({ schedule });
     } catch (error) {
+        console.error(error);
         return NextResponse.json({ error: 'Failed to generate plan' }, { status: 500 });
     }
 }
