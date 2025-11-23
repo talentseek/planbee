@@ -1,4 +1,5 @@
-import Sidebar from "@/components/Sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/AppSidebar";
 
 export default function DashboardLayout({
     children,
@@ -6,11 +7,15 @@ export default function DashboardLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <div className="flex min-h-screen">
-            <Sidebar />
-            <main className="flex-1 ml-64 p-8">
+        <SidebarProvider>
+            <AppSidebar />
+            <main className="flex-1 p-6 w-full bg-background transition-all duration-300 ease-in-out">
+                <div className="mb-4 flex items-center gap-2">
+                    <SidebarTrigger />
+                    <span className="text-sm text-muted-foreground">Toggle Hive Navigation</span>
+                </div>
                 {children}
             </main>
-        </div>
+        </SidebarProvider>
     );
 }

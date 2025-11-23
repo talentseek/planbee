@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { cn } from "@/lib/utils";
 
 interface HexagonProps {
     children: React.ReactNode;
@@ -17,7 +18,7 @@ export default function Hexagon({
     children,
     className = '',
     size = 'md',
-    color = 'bg-white',
+    color = 'bg-card',
     onClick,
     state = 'empty',
     progress = 0,
@@ -48,8 +49,8 @@ export default function Hexagon({
     const getBackgroundStyle = () => {
         if (state === 'complete') {
             return {
-                background: 'linear-gradient(135deg, #FCD34D 0%, #F59E0B 50%, #D97706 100%)',
-                backgroundSize: '200% 200%',
+                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                boxShadow: 'inset 0 0 20px rgba(255,255,255,0.3)',
             };
         }
         return {};
@@ -57,46 +58,55 @@ export default function Hexagon({
 
     return (
         <div
-            className={`relative flex items-center justify-center ${sizeClasses[size]} ${className} ${onClick ? 'cursor-pointer hover:scale-110 transition-all duration-300' : ''} ${getStateClasses()}`}
+            className={cn(
+                "relative flex items-center justify-center transition-all duration-300",
+                sizeClasses[size],
+                className,
+                onClick && "cursor-pointer hover:scale-105 active:scale-95",
+                getStateClasses()
+            )}
             onClick={onClick}
             style={{
-                animation: animated && state !== 'complete' ? 'float 3s ease-in-out infinite' : undefined,
                 filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.1))',
             }}
         >
             {/* Glassmorphic Base Hexagon */}
             <div
-                className={`absolute inset-0 transition-all duration-500 ${state === 'complete' ? '' : 'bg-white/40 backdrop-blur-md border border-white/50'}`}
+                className={cn(
+                    "absolute inset-0 transition-all duration-500",
+                    state === 'complete' 
+                        ? 'bg-amber-500' 
+                        : 'bg-white/40 backdrop-blur-sm border-2 border-white/50'
+                )}
                 style={{
                     clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
                     ...getBackgroundStyle(),
                 }}
             >
-                {/* Shimmer effect for completed state */}
-                {state === 'complete' && animated && (
-                    <div
-                        className="absolute inset-0 shimmer-effect"
-                        style={{
-                            clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
-                        }}
-                    />
-                )}
+                {/* Inner Border/Highlight */}
+                 <div 
+                    className="absolute inset-[2px] bg-transparent pointer-events-none"
+                    style={{
+                        clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
+                        border: '1px solid rgba(255,255,255,0.4)'
+                    }}
+                />
             </div>
 
             {/* Liquid Fill Animation */}
             {state === 'filling' && animated && (
                 <div className="absolute inset-0 overflow-hidden" style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}>
                     <div
-                        className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-bee-gold to-bee-yellow opacity-80 transition-all duration-1000 ease-out"
+                        className="absolute bottom-0 left-0 right-0 bg-amber-400/80 transition-all duration-1000 ease-out"
                         style={{
                             height: `${progress}%`,
                             width: '100%',
                         }}
                     >
                         <div
-                            className="absolute top-0 left-0 w-[200%] h-4 bg-white/30"
+                            className="absolute top-0 left-0 w-[200%] h-2 bg-white/40"
                             style={{
-                                animation: 'liquid-wave 2s linear infinite',
+                                animation: 'liquid-wave 3s linear infinite',
                                 transformOrigin: 'center bottom'
                             }}
                         />
@@ -110,14 +120,13 @@ export default function Hexagon({
                     className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"
                     style={{
                         clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
-                        boxShadow: '0 0 24px rgba(245, 158, 11, 0.6)',
                         background: 'radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, transparent 70%)'
                     }}
                 />
             )}
 
             {/* Content */}
-            <div className="relative z-10 flex flex-col items-center justify-center text-center p-4">
+            <div className="relative z-10 flex flex-col items-center justify-center text-center p-4 w-full h-full">
                 {children}
             </div>
         </div>

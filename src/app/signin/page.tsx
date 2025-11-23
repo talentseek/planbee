@@ -41,71 +41,80 @@ export default function SignInPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-bee-yellow via-bee-gold to-bee-amber flex items-center justify-center p-4">
-            <div className="bg-white rounded-3xl shadow-honey w-full max-w-md p-8">
+        <div className="min-h-screen bg-gradient-to-br from-bee-yellow via-bee-gold to-bee-amber flex items-center justify-center p-4 relative overflow-hidden">
+            {/* Decorative Background Elements */}
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+                <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-white/20 rounded-full blur-[100px] animate-pulse"></div>
+                <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-bee-brown/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1.5s' }}></div>
+            </div>
+
+            <div className="bg-white/90 backdrop-blur-xl rounded-[2rem] shadow-2xl w-full max-w-md p-8 relative z-10 border border-white/50">
                 <div className="text-center mb-8">
-                    <h1 className="text-4xl font-bold text-bee-black mb-2">🐝 PlanBee</h1>
-                    <p className="text-gray-600">{isSignUp ? 'Create your hive' : 'Welcome back to the hive'}</p>
+                    <div className="flex justify-center mb-4">
+                        <img src="/planbeelogo.png" alt="PlanBee Logo" className="w-20 h-20 object-contain drop-shadow-md hover:scale-110 transition-transform duration-300" />
+                    </div>
+                    <h1 className="text-3xl font-black text-bee-black mb-2 tracking-tight">PlanBee</h1>
+                    <p className="text-bee-brown/70 font-medium">{isSignUp ? 'Create your hive' : 'Welcome back to the hive'}</p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-5">
                     {isSignUp && (
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                            <label className="block text-sm font-bold text-bee-brown mb-2 ml-1">Name</label>
                             <input
                                 type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 placeholder="Your name"
                                 required={isSignUp}
-                                className="w-full p-3 text-bee-black rounded-xl border-2 border-gray-300 bg-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-bee-yellow transition-all"
+                                className="w-full p-4 text-bee-black rounded-xl border-2 border-bee-pale bg-bee-pale/50 placeholder:text-gray-400 focus:outline-none focus:border-bee-gold focus:bg-white transition-all font-medium"
                             />
                         </div>
                     )}
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                        <label className="block text-sm font-bold text-bee-brown mb-2 ml-1">Email</label>
                         <input
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="you@example.com"
                             required
-                            className="w-full p-3 text-bee-black rounded-xl border-2 border-gray-300 bg-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-bee-yellow transition-all"
+                            className="w-full p-4 text-bee-black rounded-xl border-2 border-bee-pale bg-bee-pale/50 placeholder:text-gray-400 focus:outline-none focus:border-bee-gold focus:bg-white transition-all font-medium"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                        <label className="block text-sm font-bold text-bee-brown mb-2 ml-1">Password</label>
                         <input
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="••••••••"
                             required
-                            className="w-full p-3 text-bee-black rounded-xl border-2 border-gray-300 bg-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-bee-yellow transition-all"
+                            className="w-full p-4 text-bee-black rounded-xl border-2 border-bee-pale bg-bee-pale/50 placeholder:text-gray-400 focus:outline-none focus:border-bee-gold focus:bg-white transition-all font-medium"
                         />
                     </div>
 
                     {error && (
-                        <div className="bg-red-50 border-2 border-red-300 text-red-700 px-4 py-3 rounded-xl">
-                            {error}
+                        <div className="bg-red-50 border-2 border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm font-bold flex items-center gap-2">
+                            <span className="text-xl">⚠️</span> {error}
                         </div>
                     )}
 
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-bee-black text-white px-6 py-3 rounded-xl font-bold hover:bg-gray-800 transition-colors disabled:opacity-50"
+                        className="w-full bg-bee-black text-white px-6 py-4 rounded-xl font-bold text-lg hover:bg-gray-800 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none mt-4"
                     >
-                        {loading ? 'Please wait...' : isSignUp ? 'Sign Up' : 'Sign In'}
+                        {loading ? 'Buzzing...' : isSignUp ? 'Sign Up' : 'Sign In'}
                     </button>
                 </form>
 
-                <div className="mt-6 text-center">
+                <div className="mt-8 text-center pt-6 border-t border-bee-pale">
                     <button
                         onClick={() => setIsSignUp(!isSignUp)}
-                        className="text-bee-gold hover:text-bee-amber font-medium transition-colors"
+                        className="text-bee-brown hover:text-bee-gold font-bold transition-colors text-sm"
                     >
                         {isSignUp ? 'Already have an account? Sign in' : "Don't have an account? Sign up"}
                     </button>

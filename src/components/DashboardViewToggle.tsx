@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { LayoutGrid, Hexagon } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface DashboardViewToggleProps {
     dashboardContent: React.ReactNode;
@@ -17,23 +18,27 @@ export default function DashboardViewToggle({
     return (
         <div className="space-y-6">
             <div className="flex justify-end">
-                <div className="bg-white p-1 rounded-lg border border-gray-200 shadow-sm inline-flex">
+                <div className="bg-muted p-1 rounded-lg flex items-center gap-1">
                     <button
                         onClick={() => setView('dashboard')}
-                        className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all ${view === 'dashboard'
-                                ? 'bg-bee-gold text-white shadow-sm'
-                                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
-                            }`}
+                        className={cn(
+                            "flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all",
+                            view === 'dashboard'
+                                ? "bg-white text-foreground shadow-sm"
+                                : "text-muted-foreground hover:text-foreground hover:bg-white/50"
+                        )}
                     >
                         <LayoutGrid size={16} />
                         Dashboard
                     </button>
                     <button
                         onClick={() => setView('hive')}
-                        className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all ${view === 'hive'
-                                ? 'bg-bee-gold text-white shadow-sm'
-                                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
-                            }`}
+                        className={cn(
+                            "flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all",
+                            view === 'hive'
+                                ? "bg-white text-foreground shadow-sm"
+                                : "text-muted-foreground hover:text-foreground hover:bg-white/50"
+                        )}
                     >
                         <Hexagon size={16} />
                         Hive View
@@ -41,7 +46,7 @@ export default function DashboardViewToggle({
                 </div>
             </div>
 
-            <div className="transition-opacity duration-300 ease-in-out">
+            <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
                 {view === 'dashboard' ? dashboardContent : hiveContent}
             </div>
         </div>

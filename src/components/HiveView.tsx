@@ -1,12 +1,19 @@
-
 'use client';
 
 import React, { useState } from 'react';
 import Hexagon from './Hexagon';
 import { CheckCircle, Circle, Clock, Sparkles } from 'lucide-react';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { cn } from "@/lib/utils"
 
 // Define the shape of the task data we need
-// This should match what we fetch in the page
 interface TaskWithProject {
     id: string;
     title: string;
@@ -29,18 +36,22 @@ export default function HiveView({ tasks }: HiveViewProps) {
 
     if (tasks.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center h-64 text-gray-400 bg-gradient-to-br from-bee-pale to-white rounded-2xl border border-bee-yellow/20 p-8 relative overflow-hidden">
-                {/* Background honeycomb pattern */}
-                <div className="absolute inset-0 opacity-5 pointer-events-none"
-                    style={{
-                        backgroundImage: 'radial-gradient(#F59E0B 1px, transparent 1px)',
-                        backgroundSize: '30px 30px'
-                    }}>
-                </div>
-                <Sparkles className="w-16 h-16 mb-4 text-bee-gold opacity-50" />
-                <p className="text-lg font-medium mb-2 relative z-10">The Hive is empty!</p>
-                <p className="text-sm relative z-10">Create some tasks to start building your comb.</p>
-            </div>
+            <Card className="border-2 border-dashed border-bee-pale bg-bee-pale/30 rounded-[2rem] overflow-hidden">
+                <CardContent className="flex flex-col items-center justify-center h-96 text-center p-8 relative">
+                    <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center mb-6 shadow-honey animate-pulse">
+                        <Sparkles className="w-12 h-12 text-bee-gold" />
+                    </div>
+                    <h3 className="text-2xl font-black text-bee-black mb-3">The Hive is Empty!</h3>
+                    <p className="text-bee-brown/70 text-lg max-w-md mx-auto mb-8">
+                        Your comb is waiting to be built. Create some tasks to start filling cells with nectar.
+                    </p>
+                    <div className="flex gap-2 text-sm text-bee-brown/50 font-medium">
+                        <span>🐝 No Nectar</span>
+                        <span>•</span>
+                        <span>Empty Cells</span>
+                    </div>
+                </CardContent>
+            </Card>
         );
     }
 
@@ -58,157 +69,134 @@ export default function HiveView({ tasks }: HiveViewProps) {
     };
 
     const handleCellClick = (taskId: string) => {
-        // Future: Navigate to timer with this task
         console.log('Cell clicked:', taskId);
     };
 
     return (
         <div
-            className="rounded-2xl shadow-lg border border-bee-yellow/30 p-8 min-h-[600px] flex items-center justify-center overflow-hidden relative transition-all duration-700"
-            style={{
-                backgroundImage: 'url(/background.png)',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-            }}
+            className="rounded-[2.5rem] shadow-2xl border-4 border-bee-pale p-10 min-h-[600px] flex items-center justify-center overflow-hidden relative transition-all duration-700 bg-gradient-to-br from-bee-pale/50 via-white to-bee-pale/50"
         >
-            {/* Reduced Overlay for better visibility of background */}
-            <div className="absolute inset-0 bg-gradient-to-br from-bee-white/40 via-bee-pale/30 to-bee-white/40 backdrop-blur-[2px]"></div>
+            {/* Background Image */}
+            <div className="absolute inset-0 z-0 opacity-10 pointer-events-none">
+                <div
+                    className="absolute inset-0 bg-repeat opacity-20"
+                    style={{
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23F59E0B' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                    }}
+                />
+            </div>
 
-            {/* Decorative elements - Ambient Orbs */}
-            <div className="absolute top-10 left-10 w-64 h-64 bg-bee-yellow/20 rounded-full blur-[100px] animate-pulse"></div>
-            <div className="absolute bottom-10 right-10 w-80 h-80 bg-bee-gold/20 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }}></div>
+            {/* Decorative elements */}
+            <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-bee-yellow/10 rounded-full blur-[100px] animate-pulse pointer-events-none"></div>
+            <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-bee-gold/10 rounded-full blur-[120px] animate-pulse pointer-events-none" style={{ animationDelay: '2s' }}></div>
 
             {/* Honeycomb Grid */}
-            <div className="relative z-10 w-full max-w-6xl perspective-1000">
-                <div
-                    className="grid gap-4 justify-center"
-                    style={{
-                        gridTemplateColumns: 'repeat(auto-fit, 140px)',
-                    }}
-                >
-                    {tasks.map((task, index) => {
-                        const hexState = getHexagonState(task);
-                        const progress = getProgress(task);
+            <div className="relative z-10 w-full max-w-6xl perspective-1000 py-12">
+                <TooltipProvider>
+                    <div
+                        className="flex flex-wrap justify-center gap-4"
+                    >
+                        {tasks.map((task, index) => {
+                            const hexState = getHexagonState(task);
+                            const progress = getProgress(task);
 
-                        return (
-                            <div
-                                key={task.id}
-                                className="group relative"
-                                style={{
-                                    // Offset every other row for honeycomb effect
-                                    transform: index % 2 === 0 ? 'translateY(0)' : 'translateY(40px)',
-                                    animation: `fade-in-up 0.6s ease-out forwards`,
-                                    animationDelay: `${index * 0.05}s`,
-                                }}
-                            >
-                                {/* Enhanced Glassmorphic Tooltip */}
-                                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-4 w-56 glassmorphic-tooltip text-white text-xs rounded-xl py-3 px-4 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-50 shadow-2xl scale-95 group-hover:scale-100 backdrop-blur-xl border border-white/10">
-                                    {/* Project Badge */}
-                                    <div
-                                        className="inline-block px-2 py-1 rounded-md text-[10px] font-bold mb-2 shadow-sm"
-                                        style={{
-                                            backgroundColor: task.project.color,
-                                            color: '#fff',
-                                        }}
-                                    >
-                                        {task.project.title}
-                                    </div>
-
-                                    <div className="font-semibold mb-2 text-sm truncate">{task.title}</div>
-
-                                    <div className="flex items-center gap-2 text-bee-yellow/80 mb-2">
-                                        {task.status === 'DONE' ? (
-                                            <CheckCircle size={14} className="text-green-400" />
-                                        ) : task.status === 'IN_PROGRESS' ? (
-                                            <Clock size={14} className="text-blue-400 animate-pulse" />
-                                        ) : (
-                                            <Circle size={14} />
-                                        )}
-                                        <span className="text-[11px] font-medium">{task.status.replace('_', ' ')}</span>
-                                    </div>
-
-                                    {/* Progress Bar */}
-                                    <div className="mt-2 pt-2 border-t border-bee-gold/20">
-                                        <div className="flex justify-between text-[10px] mb-1">
-                                            <span className="text-gray-300">Progress</span>
-                                            <span className="font-bold text-bee-yellow">{task.completedCells} / {task.estimatedCells} Cells</span>
-                                        </div>
-                                        <div className="w-full bg-gray-700/50 rounded-full h-2 overflow-hidden">
-                                            <div
-                                                className="bg-gradient-to-r from-bee-yellow to-bee-gold h-full transition-all duration-500 rounded-full"
-                                                style={{ width: `${progress}%` }}
-                                            ></div>
-                                        </div>
-                                    </div>
-
-                                    {/* Tooltip Arrow */}
-                                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-8 border-transparent border-t-gray-900/85"></div>
-                                </div>
-
-                                {/* Celebration Effect */}
-                                {celebratingId === task.id && (
-                                    <div className="absolute inset-0 pointer-events-none z-30">
-                                        {[...Array(8)].map((_, i) => (
-                                            <div
-                                                key={i}
-                                                className="absolute top-1/2 left-1/2 w-2 h-2 bg-bee-gold rounded-full"
-                                                style={{
-                                                    animation: 'particle-burst 1s ease-out forwards',
-                                                    '--tx': `${Math.cos((i * 45 * Math.PI) / 180) * 100}px`,
-                                                    '--ty': `${Math.sin((i * 45 * Math.PI) / 180) * 100}px`,
-                                                } as React.CSSProperties}
-                                            />
-                                        ))}
-                                    </div>
-                                )}
-
-                                {/* Hexagon Cell */}
-                                <Hexagon
-                                    size="md"
-                                    state={hexState}
-                                    progress={progress}
-                                    color="bg-white/10" // More transparent base
-                                    className="transition-all duration-500 hover:scale-110 hover:z-10"
-                                    onClick={() => handleCellClick(task.id)}
+                            return (
+                                <div
+                                    key={task.id}
+                                    className="group relative -ml-5 first:ml-0 mb-[-44px]" // Negative margins for honeycomb overlap
+                                    style={{
+                                        animation: `fade-in-up 0.6s ease-out forwards`,
+                                        animationDelay: `${index * 0.05}s`,
+                                        marginTop: (index % 10) % 2 === 0 ? '0px' : '44px', // Simple staggering
+                                    }}
                                 >
-                                    <div
-                                        className="absolute inset-0 flex items-center justify-center transition-all duration-300"
-                                        style={{
-                                            backgroundColor: task.status === 'DONE'
-                                                ? 'transparent'
-                                                : 'transparent', // Let the glass effect shine
-                                        }}
-                                    >
-                                        {/* Cell Content */}
-                                        <div className="text-center p-3 relative z-20">
-                                            {task.status === 'DONE' ? (
-                                                <div className="space-y-1">
-                                                    <CheckCircle className="text-white w-10 h-10 mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]" />
-                                                    <div className="text-[10px] font-bold text-white drop-shadow-md">
-                                                        +{task.completedCells * 10}ml
-                                                    </div>
-                                                </div>
-                                            ) : (
-                                                <div className="space-y-1">
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <div className="transform transition-transform hover:z-20 hover:scale-110 duration-300">
+                                                {/* Hexagon Cell */}
+                                                <Hexagon
+                                                    size="md"
+                                                    state={hexState}
+                                                    progress={progress}
+                                                    color="bg-white shadow-lg"
+                                                    className="transition-all duration-500"
+                                                    onClick={() => handleCellClick(task.id)}
+                                                >
                                                     <div
-                                                        className="font-bold text-xs opacity-90 truncate max-w-[90px] mb-1 drop-shadow-sm"
-                                                        style={{ color: task.project.color }}
+                                                        className="absolute inset-0 flex items-center justify-center transition-all duration-300"
                                                     >
-                                                        {task.title}
+                                                        {/* Cell Content */}
+                                                        <div className="text-center p-3 relative z-20 flex flex-col items-center justify-center h-full w-full">
+                                                            {task.status === 'DONE' ? (
+                                                                <div className="space-y-1 animate-in zoom-in duration-300">
+                                                                    <CheckCircle className="text-white w-8 h-8 mx-auto drop-shadow-md" />
+                                                                    <div className="text-[10px] font-bold text-white drop-shadow-sm">
+                                                                        +{task.completedCells * 10}XP
+                                                                    </div>
+                                                                </div>
+                                                            ) : (
+                                                                <div className="space-y-2 w-full px-2">
+                                                                    <div
+                                                                        className="font-bold text-xs opacity-90 truncate w-full text-bee-black"
+                                                                        title={task.title}
+                                                                    >
+                                                                        {task.title}
+                                                                    </div>
+                                                                    <div className="flex items-center justify-center gap-1 text-[10px] text-bee-brown font-bold bg-bee-pale/80 rounded-full px-2 py-0.5 mx-auto w-fit shadow-sm">
+                                                                        <Circle size={6} fill={task.project.color} color={task.project.color} />
+                                                                        <span>{task.completedCells}/{task.estimatedCells}</span>
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                        </div>
                                                     </div>
-                                                    <div className="flex items-center justify-center gap-1 text-[10px] text-gray-600 font-medium">
-                                                        <Circle size={8} fill={task.project.color} color={task.project.color} />
-                                                        <span>{task.completedCells}/{task.estimatedCells}</span>
+                                                </Hexagon>
+                                            </div>
+                                        </TooltipTrigger>
+                                        <TooltipContent className="bg-white/95 backdrop-blur-xl border-bee-pale p-4 rounded-2xl shadow-xl ring-1 ring-black/5">
+                                            <div className="w-56">
+                                                <Badge
+                                                    variant="outline"
+                                                    className="mb-2 border-0 text-white shadow-sm font-bold"
+                                                    style={{ backgroundColor: task.project.color }}
+                                                >
+                                                    {task.project.title}
+                                                </Badge>
+
+                                                <div className="font-bold mb-2 text-sm truncate text-bee-black">{task.title}</div>
+
+                                                <div className="flex items-center gap-2 text-gray-500 mb-3">
+                                                    {task.status === 'DONE' ? (
+                                                        <CheckCircle size={14} className="text-green-500" />
+                                                    ) : task.status === 'IN_PROGRESS' ? (
+                                                        <Clock size={14} className="text-bee-gold animate-pulse" />
+                                                    ) : (
+                                                        <Circle size={14} />
+                                                    )}
+                                                    <span className="text-[11px] font-bold uppercase tracking-wide">{task.status.replace('_', ' ')}</span>
+                                                </div>
+
+                                                {/* Progress Bar */}
+                                                <div className="mt-2 pt-3 border-t border-gray-100">
+                                                    <div className="flex justify-between text-[10px] mb-1.5">
+                                                        <span className="text-gray-400 font-bold">NECTAR COLLECTED</span>
+                                                        <span className="font-bold text-bee-amber">{task.completedCells} / {task.estimatedCells} Cells</span>
+                                                    </div>
+                                                    <div className="w-full bg-gray-100 rounded-full h-2 overflow-hidden shadow-inner">
+                                                        <div
+                                                            className="bg-gradient-to-r from-bee-yellow to-bee-gold h-full transition-all duration-500 rounded-full shadow-sm"
+                                                            style={{ width: `${progress}%` }}
+                                                        ></div>
                                                     </div>
                                                 </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                </Hexagon>
-                            </div>
-                        );
-                    })}
-                </div>
+                                            </div>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </TooltipProvider>
             </div>
         </div>
     );

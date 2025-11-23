@@ -37,30 +37,34 @@ export default async function Home() {
       />
 
       {/* Today's Plan Section */}
-      <section className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-        <h2 className="text-xl font-bold text-bee-black mb-4">Today's Plan</h2>
+      <section className="bg-white rounded-[2rem] shadow-sm border border-bee-pale p-8">
+        <h2 className="text-2xl font-black text-bee-black mb-6 flex items-center gap-2">
+          <span className="text-3xl">📅</span> Today's Plan
+        </h2>
         <div className="space-y-4">
           {todoTasks.length === 0 ? (
-            <p className="text-gray-400 text-center py-4">No tasks found. Create a project to get started!</p>
+            <div className="text-center py-12 bg-bee-pale/30 rounded-2xl border-2 border-dashed border-bee-pale">
+              <p className="text-bee-brown/60 font-medium text-lg">No tasks found. Create a comb to get started!</p>
+            </div>
           ) : (
             todoTasks.map((task) => (
               <Link
                 key={task.id}
                 href={`/timer?taskId=${task.id}`}
-                className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-bee-yellow transition-colors group cursor-pointer"
+                className="flex items-center justify-between p-5 bg-white rounded-2xl border-2 border-bee-pale hover:border-bee-gold hover:shadow-md transition-all group cursor-pointer"
               >
                 <div className="flex items-center gap-4">
                   <div
-                    className="w-6 h-6 rounded-full border-2 border-gray-300 group-hover:border-bee-gold"
-                    style={{ borderColor: task.project.color }}
+                    className="w-8 h-8 rounded-xl border-4 border-gray-100 group-hover:border-bee-gold transition-colors shadow-sm"
+                    style={{ backgroundColor: task.project.color }}
                   ></div>
                   <div>
-                    <p className="font-medium text-gray-800 group-hover:text-bee-black">{task.title}</p>
-                    <p className="text-xs text-gray-500">Project: {task.project.title}</p>
+                    <p className="font-bold text-lg text-bee-black group-hover:text-bee-brown transition-colors">{task.title}</p>
+                    <p className="text-sm text-gray-500 font-medium">Comb: {task.project.title}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <span className="bg-bee-pale text-bee-gold px-2 py-1 rounded-md font-medium">
+                  <span className="bg-bee-pale text-bee-brown px-3 py-1.5 rounded-lg font-bold border border-bee-gold/20">
                     {task.estimatedCells} Cells
                   </span>
                 </div>
@@ -73,10 +77,15 @@ export default async function Home() {
   );
 
   return (
-    <div className="space-y-8">
-      <header>
-        <h1 className="text-3xl font-bold text-bee-gold">Welcome to The Hive 🐝</h1>
-        <p className="text-bee-gold font-bold text-lg">Here is what's buzzing today.</p>
+    <div className="space-y-8 pb-10">
+      <header className="flex items-center gap-4">
+        <div className="w-16 h-16 bg-bee-gold rounded-2xl flex items-center justify-center text-white text-3xl shadow-lg rotate-3">
+          🐝
+        </div>
+        <div>
+          <h1 className="text-4xl font-black text-bee-black tracking-tight">Welcome to The Hive</h1>
+          <p className="text-bee-brown/70 font-bold text-lg">Here is what's buzzing today.</p>
+        </div>
       </header>
 
       <DashboardViewToggle
