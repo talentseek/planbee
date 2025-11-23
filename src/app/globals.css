@@ -1,26 +1,80 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #FFFBEB;
+  /* bee-white */
+  --foreground: #451a03;
+  /* bee-brown (warmer than black) */
 }
 
-@theme inline {
+@theme {
+  --color-bee-yellow: #FCD34D;
+  --color-bee-gold: #F59E0B;
+  --color-bee-amber: #D97706;
+  --color-bee-brown: #451a03;
+  --color-bee-black: #1F2937;
+  --color-bee-white: #FFFBEB;
+  --color-bee-pale: #FEF3C7;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --shadow-honey: 0 4px 14px 0 rgba(245, 158, 11, 0.39);
+
+  @keyframes fill-hexagon {
+    0% {
+      clip-path: polygon(50% 100%, 50% 100%, 50% 100%, 50% 100%, 50% 100%, 50% 100%);
+    }
+
+    100% {
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    }
+  }
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #1a1005;
+    /* Dark amber/brown background */
+    --foreground: #FFFBEB;
   }
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  /* Honeycomb pattern */
+  background-image:
+    radial-gradient(circle at center, #FCD34D 1px, transparent 1.5px),
+    radial-gradient(circle at center, #FCD34D 1px, transparent 1.5px);
+  background-size: 30px 52px;
+  background-position: 0 0, 15px 26px;
+  background-attachment: fixed;
+}
+
+.glass-panel {
+  background: rgba(255, 251, 235, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  box-shadow: 0 8px 32px rgba(245, 158, 11, 0.1);
+}
+
+.btn-honey {
+  background: linear-gradient(135deg, #FCD34D 0%, #F59E0B 100%);
+  color: #451a03;
+  font-weight: bold;
+  box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.3);
+  transition: all 0.2s ease;
+}
+
+.btn-honey:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px -1px rgba(245, 158, 11, 0.4);
+}
+
+.btn-honey:active {
+  transform: translateY(0);
 }

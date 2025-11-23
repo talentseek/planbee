@@ -1,0 +1,156 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ------------------------------
+// 1. AUTHENTICATION (Better-Auth)
+// ------------------------------
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  emailVerified Boolean?
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  sessions      Session[]
+  accounts      Account[]
+
+  // User Settings
+  workStartTime String    @default("09:00") // 24h format e.g. "09:00"
+  workEndTime   String    @default("17:00")
+  intensityMode Intensity @default(WORKER_BEE)
+  
+  // Gamification Stats
+  totalCells    Int       @default(0) // Total lifetime cells filled
+  totalNectar   Int       @default(0) // Total XP (Nectar) collected
+  currentStreak Int       @default(0) 
+  lastActiveDate DateTime? 
+  
+  // Relations
+  projects      Project[]
+  tasks         Task[]
+  focusSessions FocusSession[]
+  
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  userId    String
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("session")
+}
+
+model Account {
+  id           String    @id
+  userId       String
+  accountId    String
+  providerId   String
+  accessToken  String?
+  refreshToken String?
+  expiresAt    DateTime?
+  password     String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  
+  @@map("verification")
+}
+
+// ------------------------------
+// 2. APP LOGIC
+// ------------------------------
+
+enum Intensity {
+  GLIDER       // Light: ~4 Cells/day
+  WORKER_BEE   // Decent: ~8-10 Cells/day (Default)
+  HERO_MODE    // Heavy: 12+ Cells/day
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+  ARCHIVED
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  title       String
+  color       String   @default("#F59E0B") // Default Bee Gold
+  isArchived  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  
+  tasks       Task[]
+}
+
+model Task {
+  id             String   @id @default(cuid())
+  title          String
+  description    String?
+  status         TaskStatus @default(TODO)
+  
+  // Planning
+  estimatedCells Int      @default(1) // How many cells (25m) expected
+  completedCells Int      @default(0) // Actual count
+  dueDate        DateTime?
+  priority       Int      @default(1) // 1=Low, 2=Med, 3=High
+  
+  // Hierarchy
+  projectId      String
+  project        Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User     @relation(fields: [userId], references: [id])
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Logs
+  focusSessions  FocusSession[]
+}
+
+// ------------------------------
+// 3. ANALYTICS & LOGS
+// ------------------------------
+
+model FocusSession {
+  id          String   @id @default(cuid())
+  startTime   DateTime @default(now())
+  duration    Int      // in minutes (usually 25)
+  isCompleted Boolean  @default(false) // Did they finish or cancel?
+  
+  // Gamification - Snapshot of rewards at time of completion
+  nectarEarned Int     @default(0) 
+  
+  taskId      String?
+  task        Task?    @relation(fields: [taskId], references: [id])
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+}
