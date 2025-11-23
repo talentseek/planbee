@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 import { LogOut, Trash2, Lock, User, AlertTriangle } from "lucide-react";
 
 export default function SettingsPage() {
@@ -277,13 +278,13 @@ export default function SettingsPage() {
                         </div>
                     )}
 
-                    <button
+                    <Button
                         type="submit"
                         disabled={isChangingPassword}
-                        className="px-4 py-2 bg-bee-black text-white rounded-lg font-medium hover:bg-gray-800 transition-colors disabled:opacity-50"
+                        className="font-medium"
                     >
                         {isChangingPassword ? "Updating..." : "Update Password"}
-                    </button>
+                    </Button>
                 </form>
             </section>
 
@@ -305,13 +306,14 @@ export default function SettingsPage() {
                             <h3 className="font-medium text-gray-900">Sign Out</h3>
                             <p className="text-sm text-gray-500">Sign out of your account on this device</p>
                         </div>
-                        <button
+                        <Button
                             onClick={handleLogout}
-                            className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50 hover:text-bee-black transition-colors"
+                            variant="outline"
+                            className="w-full flex items-center gap-3 p-6 rounded-xl hover:bg-destructive/10 hover:text-destructive hover:border-destructive/30 font-medium border-primary/10 text-muted-foreground"
                         >
                             <LogOut size={18} />
                             Sign Out
-                        </button>
+                        </Button>
                     </div>
 
                     <div className="flex items-center justify-between p-4 border border-red-200 rounded-xl bg-red-50">

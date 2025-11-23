@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Bee Theme - Vibrant */
+  /* Bee Theme - Vibrant (Mapped to Standard Shadcn Variables) */
   --background: #FFFBEB;
   /* Warm Royal Jelly White */
   --foreground: #1F2937;
@@ -17,12 +17,13 @@
   --popover-foreground: #1F2937;
 
   --primary: #F59E0B;
-  /* Deep Honey Gold */
+  /* Bee Gold */
   --primary-foreground: #FFFFFF;
 
   --secondary: #FEF3C7;
-  /* Pale Pollen */
-  --secondary-foreground: #92400E;
+  /* Bee Pale */
+  --secondary-foreground: #78350F;
+  /* Bee Brown */
 
   --muted: #F3F4F6;
   --muted-foreground: #6B7280;
@@ -53,14 +54,6 @@
   --sidebar-accent-foreground: #F9FAFB;
   --sidebar-border: #374151;
   --sidebar-ring: #F59E0B;
-
-  /* Custom Bee Colors */
-  --bee-yellow: #FCD34D;
-  --bee-gold: #F59E0B;
-  --bee-amber: #D97706;
-  --bee-brown: #78350F;
-  --bee-black: #1F2937;
-  --bee-pale: #FFFBEB;
 }
 
 .dark {
@@ -123,21 +116,7 @@
 }
 
 @layer components {
-  .btn-honey {
-    background-color: var(--bee-gold);
-    color: white;
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    transition: all 0.2s;
-  }
 
-  .btn-honey:hover {
-    background-color: var(--bee-amber);
-    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  }
-
-  .btn-honey:active {
-    transform: scale(0.95);
-  }
 
   .glass-panel {
     background-color: rgb(255 255 255 / 0.8);

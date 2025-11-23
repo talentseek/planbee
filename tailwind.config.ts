@@ -60,15 +60,7 @@ const config: Config = {
                     border: "hsl(var(--sidebar-border))",
                     ring: "hsl(var(--sidebar-ring))",
                 },
-                // Custom Bee Theme Colors
-                bee: {
-                    yellow: "#FCD34D",
-                    gold: "#F59E0B",
-                    amber: "#D97706",
-                    brown: "#78350F",
-                    black: "#1F2937",
-                    pale: "#FFFBEB",
-                },
+
             },
             borderRadius: {
                 lg: "var(--radius)",

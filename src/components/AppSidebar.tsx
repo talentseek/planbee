@@ -20,6 +20,7 @@ import {
     SidebarRail,
 } from "@/components/ui/sidebar"
 import { Progress } from "@/components/ui/progress"
+import DailyQuota from "@/components/DailyQuota"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const router = useRouter()
@@ -35,15 +36,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     }
 
     return (
-        <Sidebar collapsible="icon" {...props} className="border-r-bee-gold/20 bg-sidebar">
+        <Sidebar collapsible="icon" {...props} className="border-r-border bg-sidebar">
             <SidebarHeader>
                 <div className="flex items-center gap-2 p-2">
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-honey rotate-45">
-                        <span className="-rotate-45 font-bold">B</span>
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+                        <img src="/planbeelogo.png" alt="PlanBee" className="w-8 h-8 object-contain" />
                     </div>
                     <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
                         <span className="truncate font-bold text-sidebar-foreground text-lg">PlanBee</span>
-                        <span className="truncate text-xs text-sidebar-foreground/70">Hive Defense System</span>
                     </div>
                 </div>
             </SidebarHeader>
@@ -98,15 +98,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarContent>
             <SidebarFooter>
                 <div className="p-4 group-data-[collapsible=icon]:hidden">
-                    <div className="p-4 bg-sidebar-accent/50 rounded-xl border border-sidebar-border">
-                        <p className="text-xs text-sidebar-foreground/60 mb-2 uppercase tracking-wider font-bold">Daily Quota</p>
-                        <Progress value={25} className="h-3 bg-sidebar-accent border border-sidebar-border" indicatorClassName="bg-gradient-to-r from-primary to-orange-500" />
-                        <p className="text-xs text-right text-primary mt-2 font-mono">2 / 8 Cells Filled</p>
-                    </div>
+                    <DailyQuota />
                 </div>
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton onClick={handleSignOut} className="text-red-500 hover:text-red-600 hover:bg-red-500/10">
+                        <SidebarMenuButton onClick={handleSignOut} className="text-muted-foreground hover:text-primary hover:bg-primary/10">
                             <LogOut />
                             <span>Sign Out</span>
                         </SidebarMenuButton>

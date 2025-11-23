@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Calendar, RefreshCw, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-
+import { Button } from "@/components/ui/button";
 interface ScheduleItem {
     type: 'event' | 'pomodoro';
     title?: string;
@@ -36,14 +36,15 @@ export default function PlanningPage() {
                     <h1 className="text-3xl font-black text-bee-black mb-1">Daily Plan</h1>
                     <p className="text-bee-brown/70 font-medium text-lg">Optimize your day around your calendar.</p>
                 </div>
-                <button
+                <Button
                     onClick={generatePlan}
                     disabled={loading}
-                    className="flex items-center gap-3 bg-bee-black text-white px-8 py-4 rounded-xl hover:bg-bee-brown hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none font-bold text-lg"
+                    size="lg"
+                    className="flex items-center gap-3 px-8 py-6 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
                 >
                     {loading ? <RefreshCw size={24} className="animate-spin" /> : <Calendar size={24} />}
                     <span>Generate Plan</span>
-                </button>
+                </Button>
             </header>
 
             <div className="bg-white rounded-[2rem] shadow-sm border border-bee-pale overflow-hidden">

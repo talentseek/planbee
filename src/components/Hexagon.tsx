@@ -74,9 +74,9 @@ export default function Hexagon({
             <div
                 className={cn(
                     "absolute inset-0 transition-all duration-500",
-                    state === 'complete' 
-                        ? 'bg-amber-500' 
-                        : 'bg-white/40 backdrop-blur-sm border-2 border-white/50'
+                    state === 'complete'
+                        ? 'bg-amber-500'
+                        : 'bg-white/80 backdrop-blur-md border-2 border-white/60'
                 )}
                 style={{
                     clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
@@ -84,7 +84,7 @@ export default function Hexagon({
                 }}
             >
                 {/* Inner Border/Highlight */}
-                 <div 
+                <div
                     className="absolute inset-[2px] bg-transparent pointer-events-none"
                     style={{
                         clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',

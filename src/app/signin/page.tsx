@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { authClient } from '@/lib/auth-client';
 import { useRouter } from 'next/navigation';
-
+import { Button } from "@/components/ui/button"
 export default function SignInPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -107,13 +107,13 @@ export default function SignInPage() {
                         </div>
                     )}
 
-                    <button
+                    <Button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-bee-black text-white px-6 py-4 rounded-xl font-bold text-lg hover:bg-gray-800 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none mt-4"
+                        className="w-full font-bold text-lg h-14 rounded-xl mt-4"
                     >
                         {loading ? 'Buzzing...' : isSignUp ? 'Sign Up' : 'Sign In'}
-                    </button>
+                    </Button>
                 </form>
 
                 <div className="mt-8 text-center pt-6 border-t border-bee-pale">

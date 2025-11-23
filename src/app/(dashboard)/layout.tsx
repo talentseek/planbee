@@ -12,7 +12,6 @@ export default function DashboardLayout({
             <main className="flex-1 p-6 w-full bg-background transition-all duration-300 ease-in-out">
                 <div className="mb-4 flex items-center gap-2">
                     <SidebarTrigger />
-                    <span className="text-sm text-muted-foreground">Toggle Hive Navigation</span>
                 </div>
                 {children}
             </main>

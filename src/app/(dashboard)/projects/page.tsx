@@ -24,9 +24,14 @@ export default async function ProjectsPage() {
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
-                <div>
-                    <h1 className="text-3xl font-bold text-bee-gold">Projects</h1>
-                    <p className="text-bee-gold font-bold text-lg">Manage your hives and honey.</p>
+                <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 bg-bee-gold rounded-2xl flex items-center justify-center text-white text-3xl shadow-lg rotate-3">
+                        <span className="text-3xl">⬡</span>
+                    </div>
+                    <div>
+                        <h1 className="text-4xl font-black text-bee-black tracking-tight">Combs</h1>
+                        <p className="text-bee-brown/70 font-bold text-lg">Manage your hives and honey.</p>
+                    </div>
                 </div>
                 <AddProjectButton />
             </div>

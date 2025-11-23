@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef, Suspense, useCallback } from 'react';
-import { Play, Pause, RotateCcw, Coffee, Hexagon as HexagonIcon } from 'lucide-react';
+import { Play, Pause, RotateCcw, Coffee, Hexagon as HexagonIcon, RefreshCw } from 'lucide-react';
+import { Button } from "@/components/ui/button";
 import { authClient } from '@/lib/auth-client';
 import { useSearchParams } from 'next/navigation';
 
@@ -137,30 +138,32 @@ function CellTimerContent() {
             <div className="absolute top-0 right-0 w-32 h-32 bg-bee-yellow opacity-20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
 
             <div className="flex gap-2 mb-8 bg-white/50 p-1 rounded-xl relative z-10 backdrop-blur-sm">
-                <button
+                <Button
                     onClick={() => switchMode('cell')}
-                    className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${mode === 'cell'
-                        ? 'bg-bee-gold text-white shadow-honey'
-                        : 'text-bee-brown hover:bg-bee-pale'
+                    variant={mode === 'cell' ? 'default' : 'outline'}
+                    className={`h-auto py-2 px-4 text-sm font-bold transition-all ${mode === 'cell'
+                        ? 'shadow-lg'
+                        : 'bg-background hover:bg-secondary/50'
                         }`}
                 >
                     <div className="flex items-center gap-2">
                         <HexagonIcon size={16} />
                         Cell
                     </div>
-                </button>
-                <button
+                </Button>
+                <Button
                     onClick={() => switchMode('breather')}
-                    className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${mode === 'breather'
-                        ? 'bg-bee-gold text-white shadow-honey'
-                        : 'text-bee-brown hover:bg-bee-pale'
+                    variant={mode === 'breather' ? 'default' : 'outline'}
+                    className={`h-auto py-2 px-4 text-sm font-bold transition-all ${mode === 'breather'
+                        ? 'shadow-lg'
+                        : 'bg-background hover:bg-secondary/50'
                         }`}
                 >
                     <div className="flex items-center gap-2">
                         <Coffee size={16} />
                         Breather
                     </div>
-                </button>
+                </Button>
             </div>
 
             <div className="relative mb-8 z-10">
@@ -193,12 +196,13 @@ function CellTimerContent() {
                     {isActive ? <Pause size={28} fill="currentColor" /> : <Play size={28} fill="currentColor" className="ml-1" />}
                 </button>
 
-                <button
+                <Button
                     onClick={resetTimer}
-                    className="w-12 h-12 bg-white hover:bg-bee-pale text-bee-brown rounded-full flex items-center justify-center transition-colors shadow-sm border border-bee-pale"
+                    variant="ghost"
+                    className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
                 >
-                    <RotateCcw size={20} />
-                </button>
+                    <RefreshCw size={20} />
+                </Button>
             </div>
 
             <div className="mt-8 w-full z-10">

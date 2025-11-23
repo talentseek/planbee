@@ -7,22 +7,57 @@ export const dynamic = 'force-dynamic';
 
 import ReportingDashboard from '@/components/ReportingDashboard';
 
+import { headers } from 'next/headers';
+import { auth } from '@/lib/auth';
+import { redirect } from 'next/navigation';
+
 export default async function Home() {
+  const session = await auth.api.getSession({
+    headers: await headers()
+  });
+
+  if (!session) {
+    redirect('/signin');
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { intensityMode: true }
+  });
+
+  const intensity = user?.intensityMode || 'WORKER_BEE';
+  const dailyQuota = intensity === 'GLIDER' ? 4 : intensity === 'HERO_MODE' ? 12 : 8;
+
   // Fetch stats and tasks
-  const tasksCount = await prisma.task.count({ where: { status: 'DONE' } });
+  const tasksCount = await prisma.task.count({
+    where: {
+      status: 'DONE',
+      userId: session.user.id
+    }
+  });
+
   // Count pomodoros - cascade delete should remove orphaned sessions
-  const pomodorosCount = await prisma.focusSession.count();
-  const activeProjectsCount = await prisma.project.count();
+  const pomodorosCount = await prisma.focusSession.count({
+    where: { userId: session.user.id }
+  });
+
+  const activeProjectsCount = await prisma.project.count({
+    where: { userId: session.user.id }
+  });
 
   const todoTasks = await prisma.task.findMany({
-    where: { status: 'TODO' },
-    take: 5,
+    where: {
+      status: 'TODO',
+      userId: session.user.id
+    },
+    take: dailyQuota,
     include: { project: true },
     // orderBy: { priority: 'desc' } // Use priority if available
   });
 
   // Fetch all tasks for the Hive View
   const allTasks = await prisma.task.findMany({
+    where: { userId: session.user.id },
     include: { project: true },
     orderBy: { updatedAt: 'desc' }
   });
