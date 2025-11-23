@@ -99,7 +99,6 @@ export default function HiveView({ tasks }: HiveViewProps) {
                                     transform: index % 2 === 0 ? 'translateY(0)' : 'translateY(40px)',
                                     animation: `fade-in-up 0.6s ease-out forwards`,
                                     animationDelay: `${index * 0.05}s`,
-                                    opacity: 0 // Start invisible for animation
                                 }}
                             >
                                 {/* Enhanced Glassmorphic Tooltip */}
