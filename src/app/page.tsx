@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, Hexagon, Clock, BarChart3 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -9,7 +10,13 @@ export default function LandingPage() {
             {/* Header */}
             <header className="container mx-auto px-6 py-6 flex justify-between items-center relative z-10">
                 <div className="flex items-center gap-3">
-                    <img src="/planbeelogo.png" alt="PlanBee Logo" className="w-12 h-12 object-contain hover:scale-110 transition-transform duration-300 drop-shadow-md" />
+                    <Image
+                        src="/planbeelogo.png"
+                        alt="PlanBee Logo"
+                        width={48}
+                        height={48}
+                        className="object-contain hover:scale-110 transition-transform duration-300 drop-shadow-md"
+                    />
                     <span className="text-2xl font-bold text-foreground tracking-tight">PlanBee</span>
                 </div>
                 <div className="flex items-center gap-4">

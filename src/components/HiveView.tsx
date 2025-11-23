@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import Hexagon from './Hexagon';
 import { CheckCircle, Circle, Clock, Sparkles } from 'lucide-react';
 import {
@@ -78,7 +79,12 @@ export default function HiveView({ tasks }: HiveViewProps) {
         >
             {/* Background Image */}
             <div className="absolute inset-0 z-0 pointer-events-none">
-                <img src="/background.png" alt="Hive Background" className="w-full h-full object-cover" />
+                <Image
+                    src="/background.png"
+                    alt="Hive Background"
+                    fill
+                    className="object-cover"
+                />
                 <div className="absolute inset-0 bg-black/20"></div> {/* Slight overlay for contrast */}
             </div>
 

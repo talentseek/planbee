@@ -4,6 +4,18 @@ import { useState } from 'react';
 import { X, Check, ArrowRight, ArrowLeft, Briefcase, Clock, ListTodo } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogDescription,
+} from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Badge } from "@/components/ui/badge"
+
 interface ProjectWizardProps {
     isOpen: boolean;
     onClose: () => void;
@@ -38,8 +50,6 @@ export default function ProjectWizard({ isOpen, onClose }: ProjectWizardProps) {
     const [newTaskEst, setNewTaskEst] = useState(1);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
-
-    if (!isOpen) return null;
 
     const totalCells = size.id === 'custom' ? customSize : size.cells;
 
@@ -84,56 +94,50 @@ export default function ProjectWizard({ isOpen, onClose }: ProjectWizardProps) {
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-            <div className="bg-white rounded-3xl shadow-honey w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
-                {/* Header */}
-                <div className="p-6 bg-bee-yellow flex items-center justify-between shrink-0">
+        <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+            <DialogContent className="sm:max-w-2xl max-h-[90vh] flex flex-col p-0 gap-0 overflow-hidden">
+                <DialogHeader className="p-6 bg-primary/10 border-b border-border">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-bee-black font-bold">
+                        <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary-foreground font-bold bg-primary">
                             {step}/3
                         </div>
                         <div>
-                            <h2 className="text-xl font-bold text-bee-black">
+                            <DialogTitle className="text-xl font-bold">
                                 {step === 1 && "Name your Comb"}
                                 {step === 2 && "Size the Comb"}
                                 {step === 3 && "Plan the Work"}
-                            </h2>
-                            <p className="text-bee-black/70 text-sm">
+                            </DialogTitle>
+                            <DialogDescription className="text-muted-foreground">
                                 {step === 1 && "Give your project a clear identity"}
                                 {step === 2 && "Estimate the effort required"}
                                 {step === 3 && "Break it down into actionable steps"}
-                            </p>
+                            </DialogDescription>
                         </div>
                     </div>
-                    <button onClick={onClose} className="text-bee-black hover:bg-white/20 p-2 rounded-full transition-colors">
-                        <X size={24} />
-                    </button>
-                </div>
+                </DialogHeader>
 
-                {/* Content */}
                 <div className="p-8 overflow-y-auto flex-1">
                     {step === 1 && (
                         <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-300">
-                            <div>
-                                <label className="block text-lg font-bold text-bee-black mb-3">Comb Title</label>
-                                <input
-                                    type="text"
+                            <div className="space-y-3">
+                                <Label className="text-lg font-bold">Comb Title</Label>
+                                <Input
                                     value={title}
                                     onChange={(e) => setTitle(e.target.value)}
                                     placeholder="e.g., Build New Feature"
-                                    className="w-full p-4 text-xl text-bee-black rounded-2xl border-2 border-gray-300 bg-white placeholder:text-gray-400 focus:outline-none focus:border-bee-yellow focus:ring-4 focus:ring-bee-yellow/20 transition-all"
+                                    className="p-4 text-xl h-auto"
                                     autoFocus
                                 />
                             </div>
 
-                            <div>
-                                <label className="block text-lg font-bold text-bee-black mb-3">Comb Color</label>
+                            <div className="space-y-3">
+                                <Label className="text-lg font-bold">Comb Color</Label>
                                 <div className="flex flex-wrap gap-4">
                                     {COLORS.map((c) => (
                                         <button
                                             key={c}
                                             onClick={() => setColor(c)}
-                                            className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all hover:scale-110 ${color === c ? 'ring-4 ring-offset-2 ring-bee-black scale-110 shadow-lg' : ''
+                                            className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all hover:scale-110 ${color === c ? 'ring-4 ring-offset-2 ring-primary scale-110 shadow-lg' : ''
                                                 }`}
                                             style={{ backgroundColor: c }}
                                         >
@@ -152,31 +156,31 @@ export default function ProjectWizard({ isOpen, onClose }: ProjectWizardProps) {
                                     <button
                                         key={s.id}
                                         onClick={() => setSize(s)}
-                                        className={`p-6 rounded-2xl border-2 text-left transition-all hover:border-bee-yellow hover:bg-bee-pale/30 ${size.id === s.id
-                                            ? 'border-bee-yellow bg-bee-pale ring-2 ring-bee-yellow/50'
-                                            : 'border-gray-100 bg-white'
+                                        className={`p-6 rounded-2xl border-2 text-left transition-all hover:border-primary/50 hover:bg-secondary/30 ${size.id === s.id
+                                            ? 'border-primary bg-secondary/50 ring-2 ring-primary/20'
+                                            : 'border-border bg-card'
                                             }`}
                                     >
                                         <div className="flex items-center justify-between mb-2">
-                                            <span className="font-bold text-lg text-bee-black">{s.label}</span>
-                                            {size.id === s.id && <Check className="text-bee-gold" />}
+                                            <span className="font-bold text-lg">{s.label}</span>
+                                            {size.id === s.id && <Check className="text-primary" />}
                                         </div>
-                                        <div className="text-sm text-gray-600 mb-3 font-medium">{s.desc}</div>
+                                        <div className="text-sm text-muted-foreground mb-3 font-medium">{s.desc}</div>
                                         {s.id !== 'custom' && (
-                                            <div className="inline-flex items-center gap-1 bg-white px-2 py-1 rounded-lg border border-gray-200 text-xs font-bold text-gray-600">
+                                            <Badge variant="outline" className="gap-1">
                                                 <Clock size={12} />
                                                 {s.cells} Cells
-                                            </div>
+                                            </Badge>
                                         )}
                                     </button>
                                 ))}
                             </div>
 
                             {size.id === 'custom' && (
-                                <div className="bg-gray-50 p-6 rounded-2xl border border-gray-200">
-                                    <label className="block text-sm font-bold text-gray-700 mb-2">
+                                <div className="bg-secondary/20 p-6 rounded-2xl border border-border">
+                                    <Label className="block text-sm font-bold mb-2">
                                         How many Cells?
-                                    </label>
+                                    </Label>
                                     <div className="flex items-center gap-4">
                                         <input
                                             type="range"
@@ -184,9 +188,9 @@ export default function ProjectWizard({ isOpen, onClose }: ProjectWizardProps) {
                                             max="50"
                                             value={customSize}
                                             onChange={(e) => setCustomSize(parseInt(e.target.value))}
-                                            className="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-bee-gold"
+                                            className="flex-1 h-2 bg-secondary rounded-lg appearance-none cursor-pointer accent-primary"
                                         />
-                                        <div className="w-16 h-16 bg-white rounded-xl border-2 border-bee-yellow flex items-center justify-center text-xl font-bold text-bee-black shadow-sm">
+                                        <div className="w-16 h-16 bg-card rounded-xl border-2 border-primary flex items-center justify-center text-xl font-bold shadow-sm">
                                             {customSize}
                                         </div>
                                     </div>
@@ -197,62 +201,61 @@ export default function ProjectWizard({ isOpen, onClose }: ProjectWizardProps) {
 
                     {step === 3 && (
                         <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
-                            <div className="bg-bee-pale/50 p-4 rounded-2xl border border-bee-yellow/20 flex items-center gap-4">
-                                <div className="w-12 h-12 bg-bee-yellow rounded-xl flex items-center justify-center text-bee-black">
+                            <div className="bg-secondary/30 p-4 rounded-2xl border border-primary/20 flex items-center gap-4">
+                                <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-primary-foreground">
                                     <Briefcase size={24} />
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-bee-black">{title}</h3>
-                                    <p className="text-sm text-gray-600">Target: {totalCells} Cells</p>
+                                    <h3 className="font-bold">{title}</h3>
+                                    <p className="text-sm text-muted-foreground">Target: {totalCells} Cells</p>
                                 </div>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-bold text-gray-700 mb-3">
+                                <Label className="block text-sm font-bold mb-3">
                                     Break it down (Optional)
-                                </label>
+                                </Label>
                                 <div className="flex gap-2 mb-4">
-                                    <input
-                                        type="text"
+                                    <Input
                                         value={newTask}
                                         onChange={(e) => setNewTask(e.target.value)}
                                         onKeyDown={(e) => e.key === 'Enter' && handleAddTask()}
                                         placeholder="Add a task step..."
-                                        className="flex-1 p-3 text-bee-black rounded-xl border-2 border-gray-300 bg-white placeholder:text-gray-400 focus:outline-none focus:border-bee-yellow focus:ring-2 focus:ring-bee-yellow/20"
+                                        className="flex-1"
                                     />
-                                    <input
+                                    <Input
                                         type="number"
                                         min="1"
                                         max="10"
                                         value={newTaskEst}
                                         onChange={(e) => setNewTaskEst(parseInt(e.target.value))}
-                                        className="w-20 p-3 text-bee-black rounded-xl border-2 border-gray-300 bg-white focus:outline-none focus:border-bee-yellow focus:ring-2 focus:ring-bee-yellow/20 text-center font-bold"
+                                        className="w-24 text-center font-bold"
                                         title="Estimated Cells"
                                     />
-                                    <button
+                                    <Button
                                         onClick={handleAddTask}
-                                        className="bg-bee-black text-white p-3 rounded-xl hover:bg-gray-800 transition-colors"
+                                        size="icon"
                                     >
                                         <Check size={20} />
-                                    </button>
+                                    </Button>
                                 </div>
 
                                 <div className="space-y-2 max-h-[300px] overflow-y-auto">
                                     {tasks.length === 0 ? (
-                                        <div className="text-center py-8 text-gray-400 border-2 border-dashed border-gray-200 rounded-xl">
+                                        <div className="text-center py-8 text-muted-foreground border-2 border-dashed border-border rounded-xl">
                                             <ListTodo className="mx-auto mb-2 opacity-50" />
                                             <p>No tasks added yet</p>
                                         </div>
                                     ) : (
                                         tasks.map((t, i) => (
-                                            <div key={i} className="flex items-center justify-between p-3 bg-white border border-gray-100 rounded-xl shadow-sm">
+                                            <div key={i} className="flex items-center justify-between p-3 bg-card border border-border rounded-xl shadow-sm">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-6 h-6 rounded-full bg-bee-pale flex items-center justify-center text-xs font-bold text-bee-gold">
+                                                    <div className="w-6 h-6 rounded-full bg-secondary flex items-center justify-center text-xs font-bold text-primary-foreground text-foreground">
                                                         {i + 1}
                                                     </div>
-                                                    <span className="font-medium text-gray-800">{t.title}</span>
+                                                    <span className="font-medium">{t.title}</span>
                                                 </div>
-                                                <div className="flex items-center gap-2 text-sm text-gray-500">
+                                                <div className="flex items-center gap-2 text-sm text-muted-foreground">
                                                     <Clock size={14} />
                                                     <span>{t.estimatedCells}</span>
                                                     <button
@@ -272,20 +275,21 @@ export default function ProjectWizard({ isOpen, onClose }: ProjectWizardProps) {
                 </div>
 
                 {/* Footer */}
-                <div className="p-6 border-t border-gray-100 bg-gray-50 flex justify-between items-center shrink-0">
+                <div className="p-6 border-t border-border bg-secondary/10 flex justify-between items-center shrink-0">
                     {step > 1 ? (
-                        <button
+                        <Button
+                            variant="ghost"
                             onClick={() => setStep(step - 1)}
-                            className="flex items-center gap-2 text-gray-700 hover:text-bee-black font-bold px-4 py-2 rounded-xl hover:bg-gray-200 transition-colors"
+                            className="gap-2"
                         >
                             <ArrowLeft size={18} />
                             Back
-                        </button>
+                        </Button>
                     ) : (
                         <div />
                     )}
 
-                    <button
+                    <Button
                         onClick={() => {
                             if (step < 3) {
                                 if (step === 1 && !title) return; // Validation
@@ -295,7 +299,7 @@ export default function ProjectWizard({ isOpen, onClose }: ProjectWizardProps) {
                             }
                         }}
                         disabled={step === 1 && !title}
-                        className={`flex items-center gap-2 bg-bee-yellow text-bee-black px-8 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl hover:bg-bee-gold transition-all transform active:scale-95 ${step === 1 && !title ? 'opacity-50 cursor-not-allowed' : ''
+                        className={`gap-2 font-bold shadow-lg ${step === 1 && !title ? 'opacity-50 cursor-not-allowed' : ''
                             }`}
                     >
                         {loading ? (
@@ -305,9 +309,9 @@ export default function ProjectWizard({ isOpen, onClose }: ProjectWizardProps) {
                         ) : (
                             <>Next Step <ArrowRight size={18} /></>
                         )}
-                    </button>
+                    </Button>
                 </div>
-            </div>
-        </div>
+            </DialogContent>
+        </Dialog>
     );
 }

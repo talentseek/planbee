@@ -1,8 +1,21 @@
 'use client';
 
 import { useState } from 'react';
-import { X, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { authClient } from '@/lib/auth-client';
+
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 interface AddTaskModalProps {
     isOpen: boolean;
@@ -10,18 +23,12 @@ interface AddTaskModalProps {
     projectId: string;
 }
 
-import { authClient } from '@/lib/auth-client';
-
-// ...
-
 export default function AddTaskModal({ isOpen, onClose, projectId }: AddTaskModalProps) {
     const [title, setTitle] = useState('');
     const [estimatedCells, setEstimatedCells] = useState(1);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
     const { data: session } = authClient.useSession();
-
-    if (!isOpen) return null;
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -36,7 +43,7 @@ export default function AddTaskModal({ isOpen, onClose, projectId }: AddTaskModa
                     title,
                     estimatedCells,
                     projectId,
-                    userId: session?.user?.id // Pass userId
+                    userId: session?.user?.id
                 }),
             });
 
@@ -58,60 +65,61 @@ export default function AddTaskModal({ isOpen, onClose, projectId }: AddTaskModa
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-            <div className="bg-white rounded-3xl shadow-honey w-full max-w-md overflow-hidden">
-                <div className="p-6 bg-bee-yellow flex items-center justify-between">
-                    <h2 className="text-xl font-bold text-bee-black">Add New Task</h2>
-                    <button onClick={onClose} className="text-bee-black hover:bg-white/20 p-2 rounded-full transition-colors">
-                        <X size={20} />
-                    </button>
-                </div>
+        <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+            <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                    <DialogTitle className="text-xl font-bold">Add New Task</DialogTitle>
+                    <DialogDescription>
+                        Break down your project into manageable tasks.
+                    </DialogDescription>
+                </DialogHeader>
 
-                <form onSubmit={handleSubmit} className="p-6 space-y-6">
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Task Title</label>
-                        <input
-                            type="text"
+                <form onSubmit={handleSubmit} className="space-y-6 py-4">
+                    <div className="space-y-2">
+                        <Label htmlFor="title">Task Title</Label>
+                        <Input
+                            id="title"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             placeholder="e.g., Design new feature"
                             required
-                            className="w-full p-3 text-bee-black rounded-xl border-2 border-gray-300 bg-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-bee-yellow transition-all"
                             autoFocus
+                            className="font-medium"
                         />
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Estimated Cells</label>
-                        <input
+                    <div className="space-y-2">
+                        <Label htmlFor="estimatedCells">Estimated Cells (25m each)</Label>
+                        <Input
+                            id="estimatedCells"
                             type="number"
                             min="1"
                             max="50"
                             value={estimatedCells}
                             onChange={(e) => setEstimatedCells(parseInt(e.target.value))}
-                            className="w-full p-3 text-bee-black rounded-xl border-2 border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-bee-yellow transition-all font-bold"
+                            className="font-bold text-lg"
                         />
                     </div>
 
-                    <div className="flex justify-end gap-3 pt-4">
-                        <button
+                    <DialogFooter>
+                        <Button
                             type="button"
+                            variant="outline"
                             onClick={onClose}
-                            className="px-4 py-2 text-gray-700 hover:text-gray-900 font-medium"
                         >
                             Cancel
-                        </button>
-                        <button
+                        </Button>
+                        <Button
                             type="submit"
                             disabled={loading}
-                            className="bg-bee-black text-white px-6 py-2 rounded-xl font-bold hover:bg-gray-800 transition-colors disabled:opacity-50 flex items-center gap-2"
+                            className="gap-2 font-bold"
                         >
                             <Plus size={18} />
                             {loading ? 'Creating...' : 'Create Task'}
-                        </button>
-                    </div>
+                        </Button>
+                    </DialogFooter>
                 </form>
-            </div>
-        </div>
+            </DialogContent>
+        </Dialog>
     );
 }

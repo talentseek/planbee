@@ -3,19 +3,20 @@
 import { useState } from 'react';
 import { Plus } from 'lucide-react';
 import ProjectWizard from './ProjectWizard';
+import { Button } from "@/components/ui/button";
 
 export default function AddProjectButton() {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
         <>
-            <button
+            <Button
                 onClick={() => setIsModalOpen(true)}
-                className="flex items-center gap-2 bg-bee-yellow hover:bg-bee-gold text-bee-black font-bold py-2 px-4 rounded-xl transition-colors shadow-sm hover:shadow-md"
+                className="gap-2 font-bold shadow-sm hover:shadow-md"
             >
                 <Plus size={20} />
                 <span>New Project</span>
-            </button>
+            </Button>
 
             <ProjectWizard
                 isOpen={isModalOpen}

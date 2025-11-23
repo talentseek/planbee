@@ -4,6 +4,7 @@ import * as React from "react"
 import { Home, Hexagon, Calendar, Clock, Settings, LogOut } from "lucide-react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import Image from "next/image"
 import { authClient } from "@/lib/auth-client"
 
 import {
@@ -19,7 +20,6 @@ import {
     SidebarMenuItem,
     SidebarRail,
 } from "@/components/ui/sidebar"
-import { Progress } from "@/components/ui/progress"
 import DailyQuota from "@/components/DailyQuota"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -40,7 +40,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarHeader>
                 <div className="flex items-center gap-2 p-2">
                     <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                        <img src="/planbeelogo.png" alt="PlanBee" className="w-8 h-8 object-contain" />
+                        <Image src="/planbeelogo.png" alt="PlanBee" width={32} height={32} className="object-contain" />
                     </div>
                     <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
                         <span className="truncate font-bold text-sidebar-foreground text-lg">PlanBee</span>

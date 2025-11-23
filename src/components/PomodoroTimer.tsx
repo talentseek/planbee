@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, Suspense, useCallback } from 'react';
-import { Play, Pause, RotateCcw, Coffee, Hexagon as HexagonIcon, RefreshCw } from 'lucide-react';
+import { Play, Pause, Coffee, Hexagon as HexagonIcon, RefreshCw } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { authClient } from '@/lib/auth-client';
 import { useSearchParams } from 'next/navigation';

@@ -5,103 +5,134 @@
 
 :root {
   /* Bee Theme - Vibrant (Mapped to Standard Shadcn Variables) */
-  --background: #FFFBEB;
-  /* Warm Royal Jelly White */
-  --foreground: #1F2937;
-  /* Dark Charcoal */
+  /* HEX: #FFFBEB */
+  --background: 48 100% 96%;
 
-  --card: #FFFFFF;
-  --card-foreground: #1F2937;
+  /* HEX: #1F2937 */
+  --foreground: 215 28% 17%;
 
-  --popover: #FFFFFF;
-  --popover-foreground: #1F2937;
+  /* HEX: #FFFFFF */
+  --card: 0 0% 100%;
+  --card-foreground: 215 28% 17%;
 
-  --primary: #F59E0B;
-  /* Bee Gold */
-  --primary-foreground: #FFFFFF;
+  /* HEX: #FFFFFF */
+  --popover: 0 0% 100%;
+  --popover-foreground: 215 28% 17%;
 
-  --secondary: #FEF3C7;
-  /* Bee Pale */
-  --secondary-foreground: #78350F;
-  /* Bee Brown */
+  /* Bee Gold HEX: #F59E0B */
+  --primary: 37 91% 50%;
+  --primary-foreground: 0 0% 100%;
 
-  --muted: #F3F4F6;
-  --muted-foreground: #6B7280;
+  /* Bee Pale HEX: #FEF3C7 */
+  --secondary: 48 96% 89%;
+  /* Bee Brown HEX: #78350F */
+  --secondary-foreground: 30 79% 26%;
 
-  --accent: #FFF7ED;
-  --accent-foreground: #92400E;
+  /* HEX: #F3F4F6 */
+  --muted: 220 14% 96%;
+  --muted-foreground: 220 9% 46%;
 
-  --destructive: #EF4444;
-  --destructive-foreground: #FFFFFF;
+  /* HEX: #FFF7ED */
+  --accent: 32 100% 96%;
+  --accent-foreground: 27 84% 31%;
 
-  --border: #E5E7EB;
-  --input: #E5E7EB;
-  --ring: #F59E0B;
+  /* HEX: #EF4444 */
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  /* HEX: #E5E7EB */
+  --border: 220 13% 91%;
+  /* HEX: #E5E7EB */
+  --input: 220 13% 91%;
+  /* Bee Gold HEX: #F59E0B */
+  --ring: 37 91% 50%;
 
   --radius: 0.75rem;
 
-  --chart-1: #F59E0B;
-  --chart-2: #FCD34D;
-  --chart-3: #1F2937;
-  --chart-4: #92400E;
-  --chart-5: #78350F;
+  --chart-1: 37 91% 50%;
+  --chart-2: 45 96% 64%;
+  --chart-3: 215 28% 17%;
+  --chart-4: 27 84% 31%;
+  --chart-5: 30 79% 26%;
 
-  --sidebar: #1F2937;
-  --sidebar-foreground: #F9FAFB;
-  --sidebar-primary: #F59E0B;
-  --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #374151;
-  --sidebar-accent-foreground: #F9FAFB;
-  --sidebar-border: #374151;
-  --sidebar-ring: #F59E0B;
+  /* HEX: #1F2937 */
+  --sidebar: 215 28% 17%;
+  /* HEX: #F9FAFB */
+  --sidebar-foreground: 220 13% 98%;
+  /* HEX: #F59E0B */
+  --sidebar-primary: 37 91% 50%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  /* HEX: #374151 */
+  --sidebar-accent: 215 19% 27%;
+  /* HEX: #F9FAFB */
+  --sidebar-accent-foreground: 220 13% 98%;
+  /* HEX: #374151 */
+  --sidebar-border: 215 19% 27%;
+  /* HEX: #F59E0B */
+  --sidebar-ring: 37 91% 50%;
 }
 
 .dark {
   /* Bee Theme - Dark */
-  --background: #231F20;
-  /* Dark Charcoal */
-  --foreground: #f7f7f7;
-  /* Off White */
+  /* HEX: #231F20 */
+  --background: 350 7% 13%;
+  /* HEX: #f7f7f7 */
+  --foreground: 0 0% 97%;
 
-  --card: #2a2627;
-  --card-foreground: #f7f7f7;
+  /* HEX: #2a2627 */
+  --card: 350 5% 16%;
+  --card-foreground: 0 0% 97%;
 
-  --popover: #2a2627;
-  --popover-foreground: #f7f7f7;
+  /* HEX: #2a2627 */
+  --popover: 350 5% 16%;
+  --popover-foreground: 0 0% 97%;
 
-  --primary: #FFD633;
-  --primary-foreground: #231F20;
+  /* HEX: #FFD633 */
+  --primary: 48 100% 60%;
+  --primary-foreground: 350 7% 13%;
 
-  --secondary: #78f9ce;
-  --secondary-foreground: #231F20;
+  /* HEX: #78f9ce */
+  --secondary: 160 92% 72%;
+  --secondary-foreground: 350 7% 13%;
 
-  --muted: #332D2E;
-  --muted-foreground: #a3a3a3;
+  /* HEX: #332D2E */
+  --muted: 350 6% 19%;
+  --muted-foreground: 0 0% 64%;
 
-  --accent: #332D2E;
-  --accent-foreground: #f7f7f7;
+  /* HEX: #332D2E */
+  --accent: 350 6% 19%;
+  --accent-foreground: 0 0% 97%;
 
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
+  /* HEX: #ef4444 */
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
 
-  --border: #332D2E;
-  --input: #332D2E;
-  --ring: #FFD633;
+  /* HEX: #332D2E */
+  --border: 350 6% 19%;
+  /* HEX: #332D2E */
+  --input: 350 6% 19%;
+  /* HEX: #FFD633 */
+  --ring: 48 100% 60%;
 
-  --chart-1: #FFD633;
-  --chart-2: #78f9ce;
-  --chart-3: #f7f7f7;
-  --chart-4: #F59E0B;
-  --chart-5: #D97706;
+  --chart-1: 48 100% 60%;
+  --chart-2: 160 92% 72%;
+  --chart-3: 0 0% 97%;
+  --chart-4: 37 91% 50%;
+  --chart-5: 32 95% 44%;
 
-  --sidebar: #1a1819;
-  --sidebar-foreground: #f7f7f7;
-  --sidebar-primary: #FFD633;
-  --sidebar-primary-foreground: #231F20;
-  --sidebar-accent: #332D2E;
-  --sidebar-accent-foreground: #f7f7f7;
-  --sidebar-border: #332D2E;
-  --sidebar-ring: #FFD633;
+  /* HEX: #1a1819 */
+  --sidebar: 350 4% 10%;
+  --sidebar-foreground: 0 0% 97%;
+  /* HEX: #FFD633 */
+  --sidebar-primary: 48 100% 60%;
+  --sidebar-primary-foreground: 350 7% 13%;
+  /* HEX: #332D2E */
+  --sidebar-accent: 350 6% 19%;
+  --sidebar-accent-foreground: 0 0% 97%;
+  /* HEX: #332D2E */
+  --sidebar-border: 350 6% 19%;
+  /* HEX: #FFD633 */
+  --sidebar-ring: 48 100% 60%;
 }
 
 @layer base {

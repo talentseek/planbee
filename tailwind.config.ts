@@ -60,7 +60,14 @@ const config: Config = {
                     border: "hsl(var(--sidebar-border))",
                     ring: "hsl(var(--sidebar-ring))",
                 },
-
+                // PlanBee Custom Colors
+                bee: {
+                    yellow: "#FCD34D",
+                    gold: "#F59E0B",
+                    amber: "#D97706",
+                    pale: "#FEF3C7",
+                    black: "#1F2937",
+                },
             },
             borderRadius: {
                 lg: "var(--radius)",
